@@ -1,0 +1,35 @@
+import matplotlib.pyplot as plt
+from sklearn import datasets
+from sklearn.cluster import KMeans
+from sklearn.mixture import GaussianMixture
+import sklearn.metrics as sm
+import pandas as pd
+import numpy as np
+iris=datasets.load_iris()
+x=pd.DataFrame(iris.data)
+x.columns=['Sepal_length','Sepal_width','petal_length','petal_width']
+y=pd.DataFrame(iris.target)
+y.columns=['targets']
+print(x)
+print(y)
+colormap=np.array(['red','lime','black'])
+plt.subplot(1,2,1)
+plt.scatter(x.petal_length,x.petal_width,c=colormap[y.targets],s=40)
+plt.title("real clustering")
+model1=KMeans(n_clusters=3)
+model1.fit(x)
+plt.subplot(1,2,2)
+plt.scatter(x.petal_length,x.petal_width,c=colormap[model1.labels_],s=40)
+plt.title('KMeans clustering')
+plt.show()
+model2=GaussianMixture(n_components=3)
+model2.fit(x)
+plt.subplot(1,2,1)
+plt.scatter(x.petal_length,x.petal_width,c=colormap[model2.predict(x)],s=40)
+plt.title("EM Clustering")
+plt.show()
+print("Actual targets:\n",iris.target)
+print("k means:\n",model1.labels_)
+print("EM:\n",model2.predict(x))
+print("accuracy of KMeans is",sm.accuracy_score(y,model1.labels_))
+print("Accuracy of EM is",sm.accuracy_score(y,model2.predict(x)))
