@@ -1,0 +1,23 @@
+class Mcclochpittsneuron:
+    def __init__(self, weights, threshold):
+        self.weights = weights
+        self.threshold = threshold
+
+    def activate(self, inputs):
+        return int(sum(i * w for i, w in zip(inputs, self.weights)) >= self.threshold)
+
+input_values = [[0, 0], [0, 1], [1, 0], [1, 1]]
+
+nand_neuron = Mcclochpittsneuron([-1, -1], -1)
+or_neuron = Mcclochpittsneuron([1, 1], 1)
+and_not_neuron = Mcclochpittsneuron([1, -1], 1)
+xor_neuron = Mcclochpittsneuron([1, 1], 2)
+
+and_not_output = [and_not_neuron.activate(i) for i in input_values]
+print(f"inputs: {input_values}, outputs: {and_not_output}")
+
+nand_output = [nand_neuron.activate(i) for i in input_values]
+or_output = [or_neuron.activate(i) for i in input_values]
+
+xor_output = [xor_neuron.activate((i, j)) for i, j in zip(nand_output, or_output)]
+print(f"inputs: {input_values}, outputs: {xor_output}")
