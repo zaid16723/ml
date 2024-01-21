@@ -1,0 +1,35 @@
+import numpy as np
+class DiscreteHopfieldNetwork:
+    def __init__(self,num_neurons):
+        self.num_neurons=num_neurons
+        self.weights=np.zeros((num_neurons,num_neurons))
+    def train(self,patterns):
+        for pattern in patterns:
+            pattern=np.array(pattern)
+            outer_product=np.outer(pattern,pattern)
+            np.fill_diagonal(outer_product,0)
+            self.weights += outer_product
+    def energy(self,state):
+        state=np.array(state)
+        return -0.5*np.dot(state,np.dot(self.weights,state))
+    def update_rule(self,state):
+        new_state=np.sign(np.dot(self.weights,state))
+        new_state[new_state>=0]=1
+        new_state[new_state<0]=0
+        return new_state
+    def run(self,initial_state,max_iterations=100):
+        current_state=np.array(initial_state)
+        for _ in range(max_iterations):
+            new_state=self.update_rule(current_state)
+            if np.array_equal(new_state,current_state):
+                break
+            current_state=new_state
+        return current_state
+hopfields_net=DiscreteHopfieldNetwork(4)
+training_patterns=[[1,1,1,-1]]
+hopfields_net.train(training_patterns)
+initial_state=[0,0,1,0]
+result=hopfields_net.run(initial_state)
+print("Initial state",initial_state)
+print("Final state",result)
+print("Energy of the state",hopfields_net.energy(result))
