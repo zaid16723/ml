@@ -1,0 +1,25 @@
+class Mcclochpittsneuron:
+    def __init__ (self,weights,treshold):
+        self.weights=weights
+        self.threshold=treshold
+    def activate (self,inputs):
+        weight_sum = sum([inputs[i]*self.weights[i] for i in range(len(inputs))])
+        return 1 if weight_sum >= self.threshold else 0
+and_weights = [1,1]
+and_treshold = 2
+and_neuron = Mcclochpittsneuron(and_weights,and_treshold)
+or_weights=[1,1]
+or_treshold=1
+or_neuron = Mcclochpittsneuron(or_weights,or_treshold)
+input_values_and = [(0,0),(0,1),(1,0),(1,1)]
+print("And function")
+and_output= []
+for i in input_values_and :
+    and_output.append(and_neuron.activate(i))
+print(f"inputs : {input_values_and}, outputs = {and_output}")
+input_values_or = [(0,0),(0,1),(1,0),(1,1)]
+print("OR function")
+or_output= []
+for i in input_values_or :
+    or_output.append(or_neuron.activate(i))
+print(f"inputs : {input_values_or}, outputs = {or_output}")
