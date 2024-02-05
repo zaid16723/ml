@@ -1,0 +1,26 @@
+import sys
+max_value=999
+def bell(number_of_vertices,source,adjacenecy_matrix):
+    distances=[max_value]*(number_of_vertices+1)
+    distances[source]=0
+    for _ in range(number_of_vertices-1):
+        for source_node in range(1,number_of_vertices+1):
+            for destination_node in range(1,number_of_vertices+1):
+                if adjacenecy_matrix[source_node][destination_node]!=max_value:
+                    new_distance=distances[source_node]+adjacenecy_matrix[source_node][destination_node]
+                    if distances[destination_node]>new_distance:
+                        distances[destination_node]=new_distance
+    for vertex in range(1,number_of_vertices+1):
+        print("distance of source",source,"to",vertex,"is",distances[vertex])
+number_of_vertices=int(input("enter the number of vertices"))
+adjacenecy_matrix=[[max_value]*(number_of_vertices+1) for _ in range(number_of_vertices+1)]
+print("enter the adjacency matrix:")
+for source_node in range(1,number_of_vertices+1):
+    for destination_node in range(1,number_of_vertices+1):
+        adjacenecy_matrix[source_node][destination_node]=int(input())
+        if source_node==destination_node:
+            adjacenecy_matrix[source_node][destination_node]=0
+        elif adjacenecy_matrix[source_node][destination_node]==0:
+            adjacenecy_matrix[source_node][destination_node]=max_value
+source=int(input("enter the source vertex"))
+bell(number_of_vertices,source,adjacenecy_matrix)
