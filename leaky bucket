@@ -1,0 +1,22 @@
+import time
+def leaky_bucket():
+    bucketsize=int(input("enter bucket size : "))
+    outgoing=int(input("enter outgoing rate : "))
+    n=int(input("enter number of inputs : "))
+    store=0
+    while n!=0:
+        incoming=int(input("incoming size is : "))
+        print("bucket buffer size {} out of {}".format(store,bucketsize))
+        if incoming<=(bucketsize-store):
+            store+=incoming
+            print("bucket buffer size {} out of {}".format(store,bucketsize))
+        else:
+            print("packet loss{}".format(incoming-(bucketsize-store)))
+            store=bucketsize
+            print("bucket buffer size is {} out of {}".format(store,bucketsize))
+        store-=outgoing
+        print("after outgoing : {} packets left out of in buffer".format(store,bucketsize))
+        n-=1
+        time.sleep(3)
+if __name__ == "__main__":
+    leaky_bucket()
